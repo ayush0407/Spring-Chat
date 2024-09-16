@@ -13,11 +13,19 @@ public class SignUpService {
     private SignUpRepository signUpRepository;
 
     public String addUser(User user) throws UserException {
-        if (!signUpRepository.existsById(user.getId())) {
-            signUpRepository.save(user);
-            return "User added successfully.";
-        } else {
+
+        if (signUpRepository.existsById(user.getUserId())) {
             throw new UserException("The user is already present in the application.");
         }
+        if (signUpRepository.countByPhoneNumber(user.getUserId().getPhoneNumber())>0) {
+            throw new UserException("The phone number is already associated with another user.");
+        }
+
+        signUpRepository.save(user);
+        return "User added successfully.";
+    }
+
+    public boolean checkIfUserIsSignedUp(String phoneNumber) {
+        return signUpRepository.countByPhoneNumber(phoneNumber) >0;
     }
 }

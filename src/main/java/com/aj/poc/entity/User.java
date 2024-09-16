@@ -7,34 +7,32 @@ import java.util.Date;
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    private String phoneNumber;
+    @EmbeddedId
+    private UserId userId;
 
     private String userName;
 
     private Date signupDate;
 
+    private Boolean isActive;
+
+    public UserId getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UserId userId) {
+        this.userId = userId;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
     public User() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getUserName() {
@@ -56,10 +54,10 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", signupDate=" + signupDate +
+                ", isActive=" + isActive +
                 '}';
     }
 }
